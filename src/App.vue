@@ -1,71 +1,50 @@
+<script setup lang="ts">
+import { ref } from 'vue';
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import items from './data/items';
+interface Todo {
+  list: string,
+}
 
-export default defineComponent({
-  name: "App",
-  components: {
+const todos = ref<Todo[]>([]);
+const list = ref<string>('');
 
-  },
-  data() {
-    return {
-      items: items,
-    }
-  }
-})
+function inputHandle(event: Event): void {
+  const target: string = (event.target as HTMLInputElement)?.value;
+  list.value = target;
+}
+
+function addList(): void {
+  todos.value.push({ list: list.value });
+  list.value = '';
+
+}
 </script>
 
 <template>
-  <div id="nav">
-    <RouterLink to="/" :class="{ active: $route.name === 'Home' }">
-      Home
-    </RouterLink>
-    <RouterLink to="/card" :class="{ active: $route.name === 'Card' }">
-      About
-    </RouterLink>
+  <div class="container">
+    <div class="row justify-content-around">
+      <div class="card w-75 p-0">
+        <div class="card-header">
+          <input type="text" class="form-control" @input="inputHandle">
+        </div>
+        <div class="card-body d-flex justify-content-center pt-2 pb-2">
+          <button class="btn btn-primary" @click="addList">Add</button>
+        </div>
+        <div class="card-footer" v-if="todos.length > 0">
+          <div class="row">
+            <div class="col-12 border border-0 border-bottom mt-1 mb-1 pt-1 pb-1" v-for="{ list } in todos">
+              <p class="card--text m-0">{{ list }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <RouterView />
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: rgb(245, 245, 245);
-}
-
-#nav {
-  padding: 10px;
-  width: 100%;
-  height: 60px;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-}
-
-a {
-  font-weight: bold;
-  text-decoration: none;
-  margin: 0 5px 0 5px;
-  font-size: 1.25rem;
-
-  &.active {
-    color: #2c3e50;
-  }
-}
-
-.text-center {
-  text-align: center;
+.col-3 {
+  height: 50px;
 }
 </style>
