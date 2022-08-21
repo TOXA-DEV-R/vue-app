@@ -8,15 +8,9 @@ interface Todo {
 const todos = ref<Todo[]>([]);
 const list = ref<string>('');
 
-function inputHandle(event: Event): void {
-  const target: string = (event.target as HTMLInputElement)?.value;
-  list.value = target;
-}
-
 function addList(): void {
   todos.value.push({ list: list.value });
   list.value = '';
-
 }
 </script>
 
@@ -25,7 +19,7 @@ function addList(): void {
     <div class="row justify-content-around">
       <div class="card w-75 p-0">
         <div class="card-header">
-          <input type="text" class="form-control" @input="inputHandle">
+          <input type="text" class="form-control" v-model="list">
         </div>
         <div class="card-body d-flex justify-content-center pt-2 pb-2">
           <button class="btn btn-primary" @click="addList">Add</button>
