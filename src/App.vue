@@ -33,7 +33,6 @@ function addList(): void {
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
